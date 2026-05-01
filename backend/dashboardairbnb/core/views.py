@@ -25,6 +25,11 @@ class NeighbourhoodRatingsView(APIView):
     def get(self, request, offset: int = 0):
         return Response(data.neighbourhood_rating_mean(offset))
 
+class NeighbourHoodPricesView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request):
+        return Response(data.neighbourhood_group_price_avg())
 
 class BiggestListingHostsView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]

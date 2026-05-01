@@ -16,6 +16,12 @@ def neighbourhood_rating_mean(offset=0):
     return results[start:start+LIMIT]
 
 
+def neighbourhood_group_price_avg():
+    query = models.Listing.objects.values('neighbourhood_group')
+    results = query.annotate(average_price = Avg('price')).order_by('average_price')
+    return results
+
+
 def descending_hosts_by_listing(offset=0):
     LIMIT = 5
     start = offset*LIMIT
