@@ -1,14 +1,34 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
-from . import models
-from django.db.models import Avg
+from rest_framework import routers
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from . import data
 
-# Create your views here.
 
-def hello(request: HttpResponse):
-    return HttpResponse("Hello, world")
 
-def ratings(request: HttpRequest):
-    query = models.Listing.objects.values('neighbourhood_group')
-    results = query.annotate(average_rating = Avg('rating')).order_by('average_rating')
-    return HttpResponse(results)
+class RatingsView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request: HttpRequest):
+        return Response(data.neighbourhood_group_rating_mean())
+
+
+class BiggestListingHostsView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request: HttpRequest, offset: int = 0):
+        result = data.descending_hosts_by_listing(offset)
+        return Response(result)
+
+class TopHostsView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request: HttpRequest, offset: int = 0):
+        result = data.descending_hosts_by_score()
+        return Response(result)
+
+
+router = routers.DefaultRouter()
+

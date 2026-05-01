@@ -15,7 +15,7 @@ class Import():
                 Host(
                     host_id = row['host_id'],
                     host_name = row['host_name'],
-                    calculated_host_listings_count = row['calculated_host_listings_count']
+                    listings_count = row['calculated_host_listings_count']
                     )
                 for _, row in df.iterrows()
             ]

@@ -1,9 +1,18 @@
 from django.db import models
 
 
+class Host(models.Model):
+    host_id = models.PositiveBigIntegerField(primary_key=True)
+    host_name = models.TextField()
+    listings_count = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.host_name + " -- " + str(self.listings_count)
+
+
 class Listing(models.Model):
     name = models.CharField(max_length=255)
-    host_id = models.IntegerField()
+    host_id = models.ForeignKey(Host, on_delete=models.CASCADE)
     neighbourhood_group = models.CharField(max_length=100)
     neighbourhood = models.CharField(max_length=100)
     latitude = models.FloatField()
@@ -29,10 +38,3 @@ class Listing(models.Model):
         verbose_name = "Listing"
         verbose_name_plural = "Listings"
 
-class Host(models.Model):
-    host_id = models.PositiveBigIntegerField(primary_key=True)
-    host_name = models.TextField()
-    calculated_host_listings_count = models.PositiveIntegerField()
-
-    def __str__(self):
-        return self.host_name + " -- " + str(self.calculated_host_listings_count)
