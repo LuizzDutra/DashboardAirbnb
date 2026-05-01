@@ -6,13 +6,24 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from . import data
 
+class RootView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request):
+        return Response("Hello world")
 
 
-class RatingsView(APIView):
+class NeighbouthoodGroupRatingsView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request: HttpRequest):
         return Response(data.neighbourhood_group_rating_mean())
+
+class NeighbourhoodRatingsView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request, offset: int = 0):
+        return Response(data.neighbourhood_rating_mean(offset))
 
 
 class BiggestListingHostsView(APIView):
@@ -26,7 +37,7 @@ class TopHostsView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request: HttpRequest, offset: int = 0):
-        result = data.descending_hosts_by_score()
+        result = data.descending_hosts_by_score(offset)
         return Response(result)
 
 

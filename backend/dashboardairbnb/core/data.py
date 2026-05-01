@@ -8,6 +8,13 @@ def neighbourhood_group_rating_mean():
     results = query.annotate(average_rating = Avg('rating')).order_by('average_rating')
     return results
 
+def neighbourhood_rating_mean(offset=0):
+    LIMIT = 5
+    start = offset*LIMIT
+    query = models.Listing.objects.values('neighbourhood')
+    results = query.annotate(average_rating = Avg('rating')).order_by('average_rating').reverse()
+    return results[start:start+LIMIT]
+
 
 def descending_hosts_by_listing(offset=0):
     LIMIT = 5
@@ -18,8 +25,9 @@ def descending_hosts_by_listing(offset=0):
 
 
 
-def descending_hosts_by_score():
+def descending_hosts_by_score(offset=0):
     LIMIT = 5
+    start = offset*LIMIT
     query = models.Listing.objects.select_related('host_id')
     query = query.annotate(
             host_name=F('host_id__host_name'), 
@@ -43,6 +51,6 @@ def descending_hosts_by_score():
             )
         )
     results = results.order_by('score').reverse()
-    results = results[0:LIMIT]
+    results = results[start:start+LIMIT]
     return results
 
