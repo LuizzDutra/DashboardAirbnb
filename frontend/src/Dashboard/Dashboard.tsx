@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BarGraph, type ChartData } from './Graphs'
-import { getNeighbourHoodGroupRating } from './Requests'
+import { neighbourhoodGroupRatingData } from './Data'
 
 
 
@@ -15,12 +15,7 @@ function Dashboard() {
 
   useEffect(() => {
     const request = async () => {
-      const result = await getNeighbourHoodGroupRating();
-      const cleanedData = result.map(item => ({
-        name: item.neighbourhood_group,
-        value: item.average_rating
-      }));
-      setRequestData(cleanedData);
+      setRequestData(await neighbourhoodGroupRatingData());
     }
     request();
   }, []);
