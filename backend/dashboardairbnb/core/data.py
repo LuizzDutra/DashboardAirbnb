@@ -15,6 +15,10 @@ def neighbourhood_rating_mean(offset=0):
     results = query.annotate(average_rating = Avg('rating')).order_by('average_rating').reverse()
     return results[start:start+LIMIT]
 
+def neighbourhood_group_by_listing():
+    query = models.Listing.objects.values('neighbourhood_group')
+    results = query.annotate(listings = Count('id')).order_by('listings').reverse()
+    return results
 
 def neighbourhood_group_price_avg():
     query = models.Listing.objects.values('neighbourhood_group')

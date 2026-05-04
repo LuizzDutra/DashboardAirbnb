@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.RootView.as_view()),
     path('neigh_group_ratings/', views.NeighbouthoodGroupRatingsView.as_view()),
     path('neigh_group_prices/', views.NeighbourHoodPricesView.as_view()),
+    path('neigh_group_listings/', views.NeighbourhoodListings.as_view()),
     path('neigh_ratings/', views.NeighbourhoodRatingsView.as_view()),
     path('neigh_ratings/<int:offset>', views.NeighbourhoodRatingsView.as_view()),
     path('biggest_hosts/', views.BiggestListingHostsView.as_view()),

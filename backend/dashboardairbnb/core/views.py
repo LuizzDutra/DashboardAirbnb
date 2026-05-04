@@ -19,6 +19,12 @@ class NeighbouthoodGroupRatingsView(APIView):
     def get(self, request: HttpRequest):
         return Response(data.neighbourhood_group_rating_mean())
 
+class NeighbourhoodListings(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request: HttpRequest):
+        return Response(data.neighbourhood_group_by_listing())
+
 class NeighbourhoodRatingsView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
