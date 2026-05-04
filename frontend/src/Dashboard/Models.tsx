@@ -10,6 +10,11 @@ export interface NeighbourHoodGroupListing{
   listings: number;
 }
 
+export interface RoomTypeCount{
+  room_type: string;
+  count: number;
+}
+
 export interface NeighbourHoodGroupPrice{
   neighbourhood_group: string;
   average_price: number;

@@ -7,6 +7,7 @@ import {
   neighbourhoodGroupListingData,
   neighbourhoodGroupPriceData,
   topHostsData, bigHostData,
+  roomTypeCountData,
 } from './Data'
 import {
   getHostCount
@@ -30,6 +31,8 @@ function Dashboard() {
   const [bigHost, setBigHost] = useState([]);
   const [bigHostPage, setBigHostPage] = useState(1);
 
+  const [roomTypeCount, setRoomTypeCount] = useState([]);
+
   
   async function setTopHostCallback(page: number){
      setTopHost(await topHostsData(page-1));
@@ -48,6 +51,7 @@ function Dashboard() {
       setNeighGroupRating(await neighbourhoodGroupRatingData());
       setNeighGroupListing(await neighbourhoodGroupListingData());
       setNeighGroupPrice(await neighbourhoodGroupPriceData());
+      setRoomTypeCount(await roomTypeCountData());
 
       setHostCount(await getHostCount());
       
@@ -63,6 +67,7 @@ function Dashboard() {
     <>
     <BarGraph data={neighGroupRating} domain={4.5}/>
     <PieGraph data={neighGroupListing} />
+    <PieGraph data={roomTypeCount} />
     <BarGraph data={neighGroupPrice} />
     <HostsTable 
     hosts={topHost} 

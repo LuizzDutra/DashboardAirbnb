@@ -3,7 +3,8 @@ import {
   type NeighbourHoodGroupRating, 
   type NeighbourHoodGroupListing,
   type NeighbourHoodGroupPrice,
-  type Host, type HostCount
+  type Host, type HostCount,
+  type RoomTypeCount
 } from './Models'
 
 
@@ -36,5 +37,10 @@ export async function getTopHosts(offset: number = 0): Promise<Host[]>{
 
 export async function getBiggestHosts(offset: number = 0): Promise<Host[]>{
   const response = await axios.get<Host[]>(baseUrl + "biggest_hosts/" + offset.toString());
+  return response.data;
+}
+
+export async function getRoomTypeCount(): Promise<RoomTypeCount[]>{
+  const response = await axios.get<RoomTypeCount[]>(baseUrl + "room_type_count/");
   return response.data;
 }

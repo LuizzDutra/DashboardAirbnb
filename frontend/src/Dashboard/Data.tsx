@@ -2,13 +2,15 @@ import {
   type NeighbourHoodGroupRating, 
   type NeighbourHoodGroupListing,
   type NeighbourHoodGroupPrice,
-  type Host
+  type Host,
+  type RoomTypeCount
 } from './Models';
 import { 
   getNeighbourHoodGroupRatings, 
   getNeighbourHoodGroupListings,
   getNeighbourHoodGroupPrices,
   getTopHosts, getBiggestHosts,
+  getRoomTypeCount,
 } from './Requests';
 import { type ChartData } from './Graphs'
 
@@ -57,4 +59,16 @@ export async function bigHostData(offset: number): Promise<Host[]>{
   const result: Host[] = await getBiggestHosts(offset);
 
   return result;
+}
+
+
+export async function roomTypeCountData(): Promise<ChartData[]>{
+  const result: RoomTypeCount[] = await getRoomTypeCount();
+
+  const cleanedData: ChartData[] = result.map(item => ({
+    name: item.room_type,
+    value: item.count
+  }));
+
+  return cleanedData;
 }

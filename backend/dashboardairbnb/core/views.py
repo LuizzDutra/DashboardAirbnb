@@ -58,6 +58,13 @@ class HostCount(APIView):
         result = data.host_count()
         return Response(result)
 
+class RoomTypeCount(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request: HttpRequest):
+        result = data.listing_type_count()
+        return Response(result)
+
 
 router = routers.DefaultRouter()
 

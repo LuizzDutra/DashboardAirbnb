@@ -73,5 +73,10 @@ def host_count():
     return result
 
 
+def listing_type_count():
+    query = models.Listing.objects.values("room_type")
+    result = query.annotate(count = Count("room_type"))
+    return result
+
 
 
