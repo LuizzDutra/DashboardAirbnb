@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react'
-import { BarGraph, type ChartData } from './Graphs'
-import { neighbourhoodGroupRatingData } from './Data'
+import { 
+  BarGraph, PieGraph,
+  type ChartData } from './Graphs'
+import { neighbourhoodGroupRatingData, neighbourhoodGroupListingData} from './Data'
 
 
 
 function Dashboard() {
-  const data: ChartData[] = [
-    { name: 'Mon', value: 400 },
-    { name: 'Tue', value: 300 },
-    { name: 'Wed', value: 600 },
-  ];
 
-  const [requestData, setRequestData] = useState([])
+  const [neighGroupRating, setNeighGroupRating] = useState([])
+  const [neighGroupListing, setNeighGroupListing] = useState([])
 
   useEffect(() => {
     const request = async () => {
-      setRequestData(await neighbourhoodGroupRatingData());
+      setNeighGroupRating(await neighbourhoodGroupRatingData());
+      setNeighGroupListing(await neighbourhoodGroupListingData());
     }
     request();
   }, []);
@@ -23,9 +22,8 @@ function Dashboard() {
      
   return (
     <>
-    <div> "Hello world" </div>
-    <BarGraph data={data}/>
-    <BarGraph data={requestData} domain={4.5}/>
+    <BarGraph data={neighGroupRating} domain={4.5}/>
+    <PieGraph data={neighGroupListing} />
     </>
   )
   
