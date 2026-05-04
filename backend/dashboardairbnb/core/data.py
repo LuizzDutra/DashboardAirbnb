@@ -29,8 +29,11 @@ def neighbourhood_group_price_avg():
 def descending_hosts_by_listing(offset=0):
     LIMIT = 5
     start = offset*LIMIT
-    query = models.Host.objects.order_by("listings_count").reverse()[start:start+LIMIT]
-    results = query.values("host_id", "host_name", "listings_count")
+    query = models.Listing.objects.select_related('host_id')
+    results = query.annotate(host_name= F("host_id__host_name"), listings_count=F("host_id__listings_count")).values("host_id", "host_name", "listings_count")
+    results = results.annotate(rated_count = Count("rating"))
+    results = results.annotate(average_rating = Avg("rating"))
+    results = results.order_by("listings_count").reverse()[start:start+LIMIT]
     return results
 
 
@@ -63,4 +66,12 @@ def descending_hosts_by_score(offset=0):
     results = results.order_by('score').reverse()
     results = results[start:start+LIMIT]
     return results
+
+
+def host_count():
+    result = {'count': models.Host.objects.count()}
+    return result
+
+
+
 

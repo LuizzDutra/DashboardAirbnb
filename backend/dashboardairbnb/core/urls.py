@@ -15,6 +15,7 @@ urlpatterns = [
     path('biggest_hosts/', views.BiggestListingHostsView.as_view()),
     path('biggest_hosts/<int:offset>', views.BiggestListingHostsView.as_view()),
     path('top_hosts/', views.TopHostsView.as_view()),
-    path('top_hosts/<int:offset>', views.TopHostsView.as_view())
+    path('top_hosts/<int:offset>', views.TopHostsView.as_view()),
+    path('host_count/', views.HostCount.as_view()),
 ]
 

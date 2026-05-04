@@ -51,6 +51,13 @@ class TopHostsView(APIView):
         result = data.descending_hosts_by_score(offset)
         return Response(result)
 
+class HostCount(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request: HttpRequest):
+        result = data.host_count()
+        return Response(result)
+
 
 router = routers.DefaultRouter()
 
