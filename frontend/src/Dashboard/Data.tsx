@@ -8,7 +8,7 @@ import {
   getNeighbourHoodGroupRatings, 
   getNeighbourHoodGroupListings,
   getNeighbourHoodGroupPrices,
-  getTopHosts
+  getTopHosts, getBiggestHosts,
 } from './Requests';
 import { type ChartData } from './Graphs'
 
@@ -50,4 +50,11 @@ export async function topHostsData(offset: number): Promise<Host[]>{
 
   return result;
 
+}
+
+
+export async function bigHostData(offset: number): Promise<Host[]>{
+  const result: Host[] = await getBiggestHosts(offset);
+
+  return result;
 }

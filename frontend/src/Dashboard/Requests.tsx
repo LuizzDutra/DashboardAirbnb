@@ -33,3 +33,8 @@ export async function getTopHosts(offset: number = 0): Promise<Host[]>{
   const response = await axios.get<Host[]>(baseUrl + "top_hosts/" + offset.toString())
   return response.data
 }
+
+export async function getBiggestHosts(offset: number = 0): Promise<Host[]>{
+  const response = await axios.get<Host[]>(baseUrl + "biggest_hosts/" + offset.toString());
+  return response.data;
+}

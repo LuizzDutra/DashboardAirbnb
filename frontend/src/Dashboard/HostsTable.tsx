@@ -14,6 +14,10 @@ interface HostsTableProps {
   onPageChange: (page: number) => void;
   /** Pass true while the API request is in-flight to show a loading overlay. */
   isLoading?: boolean;
+
+  tableTitle: string;
+
+  tableSort: string;
 }
 
 function getInitials(name: string): string {
@@ -143,6 +147,8 @@ export default function HostsTable({
   pageSize = 10,
   onPageChange,
   isLoading = false,
+  tableSort,
+  tableTitle
 }: HostsTableProps) {
   const scores = hosts.map((h) => h.score ?? 0).filter(Boolean);
   const minScore = Math.min(...scores);
@@ -239,10 +245,10 @@ export default function HostsTable({
       >
         <div>
           <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: "#111827" }}>
-            Top Hosts
+            {tableTitle} 
           </h2>
           <p style={{ margin: 0, fontSize: 13, color: "#6b7280", marginTop: 2 }}>
-            {totalCount} hosts · sorted by score
+            {totalCount} hosts · sorted by {tableSort} 
           </p>
         </div>
         <span

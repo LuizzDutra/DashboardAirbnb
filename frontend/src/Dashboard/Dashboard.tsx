@@ -6,7 +6,7 @@ import {
   neighbourhoodGroupRatingData, 
   neighbourhoodGroupListingData,
   neighbourhoodGroupPriceData,
-  topHostsData
+  topHostsData, bigHostData,
 } from './Data'
 import {
   getHostCount
@@ -20,14 +20,26 @@ function Dashboard() {
   const [neighGroupRating, setNeighGroupRating] = useState([]);
   const [neighGroupListing, setNeighGroupListing] = useState([]);
   const [neighGroupPrice, setNeighGroupPrice] = useState([]);
-  const [topHost, setTopHost] = useState([]);
+
   const [hostCount, setHostCount] = useState(0);
+  
+  const [topHost, setTopHost] = useState([]);
   const [hostPage, setHostPage] = useState(1);
+
+  
+  const [bigHost, setBigHost] = useState([]);
+  const [bigHostPage, setBigHostPage] = useState(1);
+
   
   async function setTopHostCallback(page: number){
      setTopHost(await topHostsData(page-1));
      setHostPage(page);
 
+  }
+
+  async function setBigHostCallback(page: number){
+     setBigHost(await bigHostData(page-1));
+     setBigHostPage(page);
   }
 
 
@@ -36,8 +48,12 @@ function Dashboard() {
       setNeighGroupRating(await neighbourhoodGroupRatingData());
       setNeighGroupListing(await neighbourhoodGroupListingData());
       setNeighGroupPrice(await neighbourhoodGroupPriceData());
-      setTopHost(await topHostsData(0));
+
       setHostCount(await getHostCount());
+      
+      setTopHost(await topHostsData(0));
+
+      setBigHost(await bigHostData(0));
     }
     request();
   }, []);
@@ -54,7 +70,19 @@ function Dashboard() {
     page={hostPage}
     onPageChange={setTopHostCallback}
     totalCount={hostCount}
+    tableTitle="Top Hosts"
+    tableSort="score"
     />
+    <HostsTable 
+    tableTitle="Biggest Hosts"
+    tableSort="listing count"
+    hosts={bigHost} 
+    pageSize={5} 
+    page={bigHostPage}
+    onPageChange={setBigHostCallback}
+    totalCount={hostCount}
+    />
+
     </>
   )
   
