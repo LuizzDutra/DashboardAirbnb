@@ -18,4 +18,4 @@ To run the enviroment in development do the following<br>
     npm run dev
     ```
 
-3. Make sure the server is running on port 5173 and access it through localhost
+3. Make sure the server is running on port 5173 and access it through http://localhost:5173/
