@@ -30,7 +30,7 @@ class Import():
                 Listing(
                     id=row['id'],
                     name=row['name'],
-                    host_id=row['host_id'],
+                    host_id_id=row['host_id'],
                     neighbourhood_group=row['neighbourhood_group'],
                     neighbourhood=row['neighbourhood'],
                     latitude=row['latitude'],
