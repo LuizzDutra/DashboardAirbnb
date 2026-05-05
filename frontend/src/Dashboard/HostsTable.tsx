@@ -34,42 +34,11 @@ function StarRating({ rating }: { rating: number }) {
   return (
     <span style={{ display: "inline-flex", gap: 1 }}>
       {Array.from({ length: 5 }, (_, i) => (
-        <span key={i} style={{ color: i < full ? "#e9a825" : "#d1d5db", fontSize: 13 }}>
+        <span key={i} style={{ color: i < full ? "#e9a825" : "var(--color-border)", fontSize: 13 }}>
           ★
         </span>
       ))}
     </span>
-  );
-}
-
-function ScoreBar({ score, min, max }: { score: number; min: number; max: number }) {
-  const pct = max === min ? 100 : Math.min(100, ((score - min) / (max - min)) * 100);
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      <div
-        style={{
-          flex: 1,
-          height: 4,
-          background: "#e5e7eb",
-          borderRadius: 2,
-          minWidth: 60,
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            width: `${pct.toFixed(1)}%`,
-            height: "100%",
-            background: "#3b82f6",
-            borderRadius: 2,
-            transition: "width 0.3s ease",
-          }}
-        />
-      </div>
-      <span style={{ fontSize: 13, fontWeight: 500, minWidth: 42, textAlign: "right" }}>
-        {score.toFixed(3)}
-      </span>
-    </div>
   );
 }
 
@@ -124,10 +93,10 @@ function PaginationButton({
         height: 34,
         padding: "0 10px",
         border: "1px solid",
-        borderColor: active ? "#3b82f6" : "#e5e7eb",
+        borderColor: active ? "var(--color-accent)" : "var(--color-border)",
         borderRadius: 8,
-        background: active ? "#3b82f6" : "white",
-        color: active ? "white" : disabled ? "#9ca3af" : "#374151",
+        background: active ? "var(--color-accent)" : "var(--color-surface)",
+        color: active ? "var(--color-on-accent, #fff)" : disabled ? "var(--color-text-disabled)" : "var(--color-text)",
         fontSize: 13,
         fontWeight: 500,
         cursor: disabled ? "not-allowed" : "pointer",
@@ -150,10 +119,6 @@ export default function HostsTable({
   tableSort,
   tableTitle
 }: HostsTableProps) {
-  const scores = hosts.map((h) => h.score ?? 0).filter(Boolean);
-  const minScore = Math.min(...scores);
-  const maxScore = Math.max(...scores);
-
   const totalPages = Math.ceil(totalCount / pageSize);
   const globalOffset = (page - 1) * pageSize;
   const rangeEnd = Math.min(globalOffset + pageSize, totalCount);
@@ -180,17 +145,17 @@ export default function HostsTable({
     fontWeight: 600,
     letterSpacing: "0.07em",
     textTransform: "uppercase",
-    color: "#6b7280",
-    borderBottom: "1px solid #f3f4f6",
+    color: "var(--color-text-muted)",
+    borderBottom: "1px solid var(--color-border-subtle)",
     textAlign: "left",
     whiteSpace: "nowrap",
-    background: "#fafafa",
+    background: "var(--color-surface-raised)",
   };
 
   const tdStyle: React.CSSProperties = {
     padding: "12px 14px",
     fontSize: 14,
-    color: "#111827",
+    color: "var(--color-text)",
     verticalAlign: "middle",
   };
 
@@ -198,11 +163,11 @@ export default function HostsTable({
     <div
       style={{
         fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
-        background: "white",
+        background: "var(--color-surface)",
         borderRadius: 12,
-        border: "1px solid #e5e7eb",
+        border: "1px solid var(--color-border)",
         overflow: "hidden",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.24)",
         position: "relative",
       }}
     >
@@ -212,7 +177,7 @@ export default function HostsTable({
           style={{
             position: "absolute",
             inset: 0,
-            background: "rgba(255,255,255,0.6)",
+            background: "var(--color-overlay, rgba(0,0,0,0.4))",
             zIndex: 10,
             display: "flex",
             alignItems: "center",
@@ -223,8 +188,8 @@ export default function HostsTable({
             style={{
               width: 20,
               height: 20,
-              border: "2px solid #e5e7eb",
-              borderTopColor: "#3b82f6",
+              border: "2px solid var(--color-border)",
+              borderTopColor: "var(--color-accent)",
               borderRadius: "50%",
               animation: "spin 0.7s linear infinite",
             }}
@@ -237,27 +202,28 @@ export default function HostsTable({
       <div
         style={{
           padding: "16px 20px",
-          borderBottom: "1px solid #f3f4f6",
+          borderBottom: "1px solid var(--color-border-subtle)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
         <div>
-          <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: "#111827" }}>
-            {tableTitle} 
+          <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: "var(--color-text)" }}>
+            {tableTitle}
           </h2>
-          <p style={{ margin: 0, fontSize: 13, color: "#6b7280", marginTop: 2 }}>
-            {totalCount} hosts · sorted by {tableSort} 
+          <p style={{ margin: 0, fontSize: 13, color: "var(--color-text-muted)", marginTop: 2 }}>
+            {totalCount} hosts · sorted by {tableSort}
           </p>
         </div>
         <span
           style={{
             fontSize: 12,
-            color: "#6b7280",
-            background: "#f3f4f6",
+            color: "var(--color-text-muted)",
+            background: "var(--color-surface-raised)",
             padding: "4px 10px",
             borderRadius: 999,
+            border: "1px solid var(--color-border)",
           }}
         >
           Page {page} of {totalPages}
@@ -274,7 +240,7 @@ export default function HostsTable({
               <th style={thStyle}>Listings</th>
               <th style={thStyle}>Rated</th>
               <th style={thStyle}>Avg rating</th>
-              <th style={{ ...thStyle, minWidth: 160 }}>Score</th>
+              <th style={thStyle}>Score</th>
             </tr>
           </thead>
           <tbody>
@@ -284,17 +250,17 @@ export default function HostsTable({
                 <tr
                   key={host.host_name + rank}
                   style={{
-                    borderBottom: i < hosts.length - 1 ? "1px solid #f9fafb" : "none",
+                    borderBottom: i < hosts.length - 1 ? "1px solid var(--color-border-subtle)" : "none",
                     transition: "background 0.12s",
                   }}
                   onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLElement).style.background = "#f9fafb")
+                    ((e.currentTarget as HTMLElement).style.background = "var(--color-surface-hover)")
                   }
                   onMouseLeave={(e) =>
                     ((e.currentTarget as HTMLElement).style.background = "transparent")
                   }
                 >
-                  <td style={{ ...tdStyle, color: "#9ca3af", fontSize: 12, fontWeight: 500 }}>
+                  <td style={{ ...tdStyle, color: "var(--color-text-disabled)", fontSize: 12, fontWeight: 500 }}>
                     {rank}
                   </td>
                   <td style={tdStyle}>
@@ -311,32 +277,34 @@ export default function HostsTable({
                         borderRadius: 999,
                         fontSize: 12,
                         fontWeight: 500,
-                        background: "#f3f4f6",
-                        color: "#374151",
-                        border: "1px solid #e5e7eb",
+                        background: "var(--color-surface-raised)",
+                        color: "var(--color-text)",
+                        border: "1px solid var(--color-border)",
                       }}
                     >
                       {host.listings_count}
                     </span>
                   </td>
-                  <td style={{ ...tdStyle, color: "#6b7280" }}>{host.rated_count ?? "—"}</td>
+                  <td style={{ ...tdStyle, color: "var(--color-text-muted)" }}>{host.rated_count ?? "—"}</td>
                   <td style={tdStyle}>
                     {host.average_rating != null ? (
                       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                         <StarRating rating={host.average_rating} />
-                        <span style={{ fontSize: 12, color: "#6b7280" }}>
+                        <span style={{ fontSize: 12, color: "var(--color-text-muted)" }}>
                           {host.average_rating.toFixed(2)}
                         </span>
                       </div>
                     ) : (
-                      <span style={{ color: "#9ca3af" }}>—</span>
+                      <span style={{ color: "var(--color-text-disabled)" }}>—</span>
                     )}
                   </td>
                   <td style={tdStyle}>
                     {host.score != null ? (
-                      <ScoreBar score={host.score} min={minScore} max={maxScore} />
+                      <span style={{ fontSize: 13, fontWeight: 500, color: "var(--color-text)" }}>
+                        {host.score.toFixed(3)}
+                      </span>
                     ) : (
-                      <span style={{ color: "#9ca3af" }}>—</span>
+                      <span style={{ color: "var(--color-text-disabled)" }}>—</span>
                     )}
                   </td>
                 </tr>
@@ -350,14 +318,14 @@ export default function HostsTable({
       <div
         style={{
           padding: "12px 20px",
-          borderTop: "1px solid #f3f4f6",
+          borderTop: "1px solid var(--color-border-subtle)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          background: "#fafafa",
+          background: "var(--color-surface-raised)",
         }}
       >
-        <span style={{ fontSize: 13, color: "#6b7280" }}>
+        <span style={{ fontSize: 13, color: "var(--color-text-muted)" }}>
           Showing {globalOffset + 1}–{rangeEnd} of {totalCount}
         </span>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
@@ -371,7 +339,7 @@ export default function HostsTable({
             p === "…" ? (
               <span
                 key={`ellipsis-${i}`}
-                style={{ padding: "0 4px", color: "#9ca3af", fontSize: 13 }}
+                style={{ padding: "0 4px", color: "var(--color-text-disabled)", fontSize: 13 }}
               >
                 …
               </span>

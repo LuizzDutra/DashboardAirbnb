@@ -20,7 +20,6 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 export const PieGraph: React.FC<ChartProp> = ({data}) => (
     <ResponsiveContainer width="100%" height={300}>
       <PieChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
           <Pie type="monotone" 
           dataKey="value" 

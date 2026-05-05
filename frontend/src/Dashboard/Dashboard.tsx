@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import './Dashboard.css'
 import { 
   BarGraph, PieGraph,
   type ChartData } from './Graphs'
@@ -62,35 +63,61 @@ function Dashboard() {
     request();
   }, []);
 
-     
+ 
   return (
-    <>
-    <BarGraph data={neighGroupRating} domain={4.5}/>
-    <PieGraph data={neighGroupListing} />
-    <PieGraph data={roomTypeCount} />
-    <BarGraph data={neighGroupPrice} />
-    <HostsTable 
-    hosts={topHost} 
-    pageSize={5} 
-    page={hostPage}
-    onPageChange={setTopHostCallback}
-    totalCount={hostCount}
-    tableTitle="Top Hosts"
-    tableSort="score"
-    />
-    <HostsTable 
-    tableTitle="Biggest Hosts"
-    tableSort="listing count"
-    hosts={bigHost} 
-    pageSize={5} 
-    page={bigHostPage}
-    onPageChange={setBigHostCallback}
-    totalCount={hostCount}
-    />
+  <div className="dashboard-container" style={{ display: 'grid', gap: '20px', padding: '20px' }}>
+    
+    <div style={{ display: 'grid', gridTemplateColumns: '0.7fr 1fr', gap: '20px'}}>
+      <section className="card">
+        <h3>Listings by Neighborhood</h3>
+        <PieGraph data={neighGroupListing} />
+      </section>
+      <section className="card">
+        <h3>Average Rating per Neighborhood</h3>
+        <BarGraph data={neighGroupRating} domain={4.5} />
+      </section>
+    </div>
 
-    </>
-  )
-  
+    <div style={{ display: 'grid', gridTemplateColumns: '0.7fr 1fr', gap: '20px'}}>
+      <section className="card">
+        <h3>Room Type Distribution</h3>
+        <PieGraph data={roomTypeCount} />
+      </section>
+      <section className="card">
+        <h3>Price per Neighborhood</h3>
+        <BarGraph data={neighGroupPrice} />
+      </section>
+    </div>
+
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}
+    className="fixed-card">
+      <section style={{ border: '4px solid var(--border-color)'}}>
+      <HostsTable 
+        hosts={topHost} 
+        pageSize={5} 
+        page={hostPage}
+        onPageChange={setTopHostCallback}
+        totalCount={hostCount}
+        tableTitle="Top Hosts"
+        tableSort="score"
+      />
+      </section>
+      <section style={{ border: '4px solid var(--border-color)'}}>
+      <HostsTable 
+        tableTitle="Biggest Hosts"
+        tableSort="listing count"
+        hosts={bigHost} 
+        pageSize={5} 
+        page={bigHostPage}
+        onPageChange={setBigHostCallback}
+        totalCount={hostCount}
+      />
+      </section>
+    </div>
+
+  </div>
+);
+
 
 }
 
